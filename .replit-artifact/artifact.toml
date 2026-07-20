@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Market Mirror Mapper Portal"
+version = "1.0.0"
+id = "artifacts/mapper-portal"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22485
+
+[services.development]
+run = "pnpm --filter @workspace/mapper-portal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/mapper-portal", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/mapper-portal/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22485"
+BASE_PATH = "/"
